@@ -72,8 +72,8 @@ public class URLTest {
       while(input.hasNextLine()) {
          String[] tokens = input.nextLine().split(",");
          
-         String county = tokens[1];
-         String state  = tokens[2];
+         String county = tokens[1].toLowerCase();
+         String state  = tokens[2].toLowerCase();
          
          // DEBUG: System.out.println("State: " + state + " County: " + county + " Cases: " + tokens[4] + " Deaths: " + tokens[5]);
          
@@ -107,10 +107,10 @@ public class URLTest {
    // Event loop to repeat if a user's desired state and county is not found, or an error happens during input.
       while (true) {
          System.out.print("State: ");
-         state = input.nextLine();
+         state = input.nextLine().toLowerCase();
          
          System.out.print("County: ");
-         county = input.nextLine();
+         county = input.nextLine().toLowerCase();
          
          myCounty = new Pair<String, String>(state, county);
          
