@@ -1,28 +1,44 @@
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+// Once the webpage finished loading...
+document.addEventListener("DOMContentLoaded", function() { 
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+// Create a pointer to our form
+   var myForm = document.getElementById('myForm');
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+// If someone submits the form, override that to call a javascript function instead.
+   myForm.addEventListener('submit', function(event) {
+     document.getElementById("results").innerHTML = "Loading...";
+     getData();
+     event.preventDefault(); // cancels form submission
+   });
+});
+
+// Take the state and county entered, and send to the java backend to request covid data
+async function getData() {
+    const state  = document.getElementById("state").value;
+    const county = document.getElementById("county").value;
+
+    const params = new URLSearchParams();
+    params.append('state', state);
+    params.append('county', county);
+
+    fetch('/getData', {
+       method: 'POST',
+       body: params
+    })
+       .then(response => response.json())
+       .then(data => display(data, state, county));
+
 }
+
+// A function to Print / Display the data we got
+function display(data, state, county) {
+    var results = document.getElementById("results");
+
+    var cases  = Number(data.cases);
+    var deaths = Number(data.deaths);
+
+    results.innerHTML  = "For <b>" + county + "</b> county in <b>" + state + "</b>, there were...<br><br>";
+    results.innerHTML += "<b>" + cases.toLocaleString()  + "</b> Cases of Covid-19<br><b>";
+    results.innerHTML += "<b>" + deaths.toLocaleString() + "</b> Covid-19 related deaths.";
+} 

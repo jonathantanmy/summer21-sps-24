@@ -1,11 +1,10 @@
 /*
-   URLTest.java
+   getData.java
 
    Description:
       A simple Java program that connects to NyTimes' Covid CSV file
       then processes that data into an easy to use HashMap data structure.
-      Then, it asks a user which State and County it would like to see
-      Covid data on, ending by returning the desired data.
+      Recieves data input from HTML form.
       
       * Prototype for IsCovidNearMe.java *
       
@@ -30,6 +29,7 @@
    Made by rivejona@kean.edu (Jon)
    
 */
+package com.google.sps.servlets;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -38,12 +38,20 @@ import java.util.Scanner;
 import java.net.URL;
 import java.net.URLConnection;
 
-// import javafx.util.Pair;
+import java.io.IOException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+/** Handles requests sent to the /hello URL. Try running a server and navigating to /hello! */
+@WebServlet("/getData")
+public class getData extends HttpServlet {
 
-public class URLTest {
-   public static void main(String[] args) throws Exception {
- 
+  static final long serialVersionUID = 1;
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 // #######################
 // # Retrieving the Data #
 // #######################
@@ -90,46 +98,40 @@ public class URLTest {
 
 
 // #############################
-// # Displaying Output To User #
+// # Displaying Output To User #  In this stage, we create JSON from all the data we've collected.  
 // #############################
 
-   // Create a Scanner that can read from the keyboard.
-      input = new Scanner(System.in);
+      response.setContentType("application/json;");
+
+      String state  = request.getParameter("state").toLowerCase();
+      String county = request.getParameter("county").toLowerCase();
       
-   // Welcome the user to our prototype! And ask them to input the desired state and county variables.
-      System.out.println("Welcome to the Is Covid Near Me Java Prototype!\n");
-      System.out.println("Please enter the State and County you would like to see covid results for:");
-      
-      String state  = "";
-      String county = "";
-      Pair<String, String> myCounty = null;
-      
-   // Event loop to repeat if a user's desired state and county is not found, or an error happens during input.
-      while (true) {
-         System.out.print("State: ");
-         state = input.nextLine().toLowerCase();
-         
-         System.out.print("County: ");
-         county = input.nextLine().toLowerCase();
-         
-         myCounty = new Pair<String, String>(state, county);
-         
-         if (dataMap.containsKey(myCounty))
-           break;
-         else {
-           System.out.println("Sorry! It looks like your county, " + county + " county in " + state + " is not in our list.");
-           System.out.println("Please try again!\n");
-         }
+      Pair<String, String> myCounty = new Pair<String, String>(state, county);
+
+   // If the state & county found is in our database,
+      if (dataMap.containsKey(myCounty)) {
+        Pair<Integer, Integer> myCountyData = dataMap.get(myCounty);
+
+        int cases  = myCountyData.getKey();
+        int deaths = myCountyData.getValue();
+
+        response.getWriter().println("{ \"cases\": \"" + cases + "\", \"deaths\":\"" + deaths + "\" }");
       }
-      
-      Pair<Integer, Integer> myCountyData = dataMap.get(myCounty);
-      
-      int cases  = myCountyData.getKey();
-      int deaths = myCountyData.getValue();
-      
-      System.out.println("\nFor " + county + " county in " + state + ", there have been " + cases + " cases of Covid 19 and " + deaths + " covid related deaths.");
-   }
-   
+   // If not...
+      else {
+        response.getWriter().println("Not Found");
+
+        /* Debug
+          response.getWriter().println("For State: " + state + " and County: " + county);
+          response.getWriter().println("HashMap Size: " + dataMap.size());
+          response.getWriter().println("HashMap Data:");
+
+        for (Pair<String, String> key : dataMap.keySet())
+            response.getWriter().println(key);
+        */
+      }
+
+  }
 }
 
 // Looks like the Pair class isn't included in java by default.
@@ -146,7 +148,7 @@ public Pair(K key, V value) {
 
     @Override
     public String toString() {
-        return "(" + key + "," + value + ")";
+        return "(" + key + ", " + value + ")";
     }
 
     @Override

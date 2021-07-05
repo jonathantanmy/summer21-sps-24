@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Prototype</title>
+    <title>Is Covid Near Me?</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
@@ -10,13 +10,14 @@
     <div id="content">
       <h1>Welcome to the "is Covid near me" prototype!</h1>
       <p>Please enter the State and County you would like to see Covid results for:</p>
-      <form>
-        <label for="State">State:</label><br>
-        <input type="text" id="fname" name="State"><br>
-        <label for="County">County:</label><br>
-        <input type="text" id="lname" name="County"><br><br>
+      <form id="myForm">
+        <label for="state">State:</label><br>
+        <input type="text" name="state" id="state" required><br>
+        <label for="county">County:</label><br>
+        <input type="text" name="county" id="county" required><br><br>
         <input type="submit" value="Submit">
-        </form>
+      </form>
+      <h2 id=results style="font-weight: normal"></h2>
     </div>
   </body>
 </html>
