@@ -119,7 +119,7 @@ public class getData extends HttpServlet {
       }
    // If not...
       else {
-        response.getWriter().println("Not Found");
+        response.getWriter().println("{ \"error\":\"Not Found\" }");
 
         /* Debug
           response.getWriter().println("For State: " + state + " and County: " + county);
