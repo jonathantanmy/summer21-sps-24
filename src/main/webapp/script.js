@@ -28,17 +28,28 @@ async function getData() {
     })
        .then(response => response.json())
        .then(data => display(data, state, county));
-
 }
 
 // A function to Print / Display the data we got
 function display(data, state, county) {
     var results = document.getElementById("results");
 
-    var cases  = Number(data.cases);
-    var deaths = Number(data.deaths);
+    if(data.hasOwnProperty('error')) {
+        results.innerHTML = "Location not found.";
+    }
+    else {
+        var cases  = Number(data.newCases);
+        var totalCases = Number(data.avgCases)*7;
 
-    results.innerHTML  = "For <b>" + county + "</b> county in <b>" + state + "</b>, there were...<br><br>";
-    results.innerHTML += "<b>" + cases.toLocaleString()  + "</b> Cases of Covid-19<br><b>";
-    results.innerHTML += "<b>" + deaths.toLocaleString() + "</b> Covid-19 related deaths.";
+        var deaths = Number(data.newDeaths);
+        var totalDeaths = Number(data.avgDeaths)*7;
+
+        results.innerHTML  = "For <b>" + county + "</b> county in <b>" + state + "</b>, there were...<br><br>";
+
+        results.innerHTML += "<b>" + cases.toLocaleString()  + "</b> New Cases of Covid-19 yesterday " 
+        results.innerHTML += "with <b>" + totalCases.toLocaleString()  + "</b> cases this past week.<br><b>";
+
+        results.innerHTML += "<b>" + deaths.toLocaleString() + "</b> New Covid-19 related deaths yesterday ";
+        results.innerHTML += "with <b>" + totalDeaths.toLocaleString() + "</b> deaths this past week.";
+    }
 } 
