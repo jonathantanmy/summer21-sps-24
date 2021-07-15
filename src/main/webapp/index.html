@@ -3,30 +3,38 @@
   <head>
     <meta charset="UTF-8">
     <title>Is Covid Near Me?</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
     <script src="script.js"></script>
   </head>
   <body>
     <div class="content">
       <h1>Is Covid near me?</h1>
+
       <form id="myForm" autocomplete="off">
-    <div class="user-box">
-      <input type="text" name="state" id="state" required="">
-      <label>State</label>
-    </div>
-    <div class="user-box">
-      <input type="text" name="county" id="county" required="">
-      <label>County</label>
-    </div>
-    <a href="#" onclick="getData();">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      Submit 
-    </a>
-  </form><br>
-      <h2 id=results style="font-weight: normal"></h2>
+
+        <div class="user-box">
+            <input type="text" id="state" required="">
+            <label>State</label>
+        </div>
+
+        <div class="user-box">
+            <input type="text" id="county" required="">
+            <label>County</label>
+        </div>
+
+        <input type="submit" style="display: none"> <!--Hidden Submit button so user can press "enter"-->
+
+        <a href="#" onclick="getData()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Submit 
+        </a>
+
+      </form><br>
+      <h2 id="results" style="font-weight: normal"></h2>
     </div>
   </body>
 </html>

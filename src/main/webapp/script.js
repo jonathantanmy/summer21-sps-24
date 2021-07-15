@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // If someone submits the form, override that to call a javascript function instead.
    myForm.addEventListener('submit', function(event) {
-     document.getElementById("results").innerHTML = "Loading...";
      getData();
      event.preventDefault(); // cancels form submission
    });
@@ -15,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Take the state and county entered, and send to the java backend to request covid data
 async function getData() {
+    document.getElementById("results").innerHTML = "Loading...";
+
     const state  = document.getElementById("state").value;
     const county = document.getElementById("county").value;
 
@@ -38,18 +39,18 @@ function display(data, state, county) {
         results.innerHTML = "Location not found.";
     }
     else {
-        var cases  = Number(data.newCases);
-        var totalCases = Number(data.avgCases)*7;
+        var cases       = Math.round(Number(data.newCases));
+        var totalCases  = Math.round(Number(data.avgCases)*7);
 
-        var deaths = Number(data.newDeaths);
-        var totalDeaths = Number(data.avgDeaths)*7;
+        var deaths      = Math.round(Number(data.newDeaths));
+        var totalDeaths = Math.round(Number(data.avgDeaths)*7);
 
-        results.innerHTML  = "For <b>" + county + "</b> county in <b>" + state + "</b>, there were...<br><br>";
+        results.innerHTML  = "Today In <b>" + county + "</b>, <b>" + state + "</b>,<br>there were...<br><br>";
 
-        results.innerHTML += "<b>" + cases.toLocaleString()  + "</b> New Cases of Covid-19 yesterday " 
-        results.innerHTML += "with <b>" + totalCases.toLocaleString()  + "</b> cases this past week.<br><b>";
+        results.innerHTML += "<b>" + cases.toLocaleString()  + "</b> New Cases of Covid-19.<br>" 
+        results.innerHTML += "<b>" + totalCases.toLocaleString()  + "</b> cases this past week.<br><br>";
 
-        results.innerHTML += "<b>" + deaths.toLocaleString() + "</b> New Covid-19 related deaths yesterday ";
-        results.innerHTML += "with <b>" + totalDeaths.toLocaleString() + "</b> deaths this past week.";
+        results.innerHTML += "<b>" + deaths.toLocaleString() + "</b> New Covid-19 related deaths.<br>";
+        results.innerHTML += "<b>" + totalDeaths.toLocaleString() + "</b> deaths this past week.";
     }
 } 
