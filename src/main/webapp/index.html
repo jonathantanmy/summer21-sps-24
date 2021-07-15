@@ -3,20 +3,29 @@
   <head>
     <meta charset="UTF-8">
     <title>Is Covid Near Me?</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="main.css">
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>Welcome to the "is Covid near me" prototype!</h1>
-      <p>Please enter the State and County you would like to see Covid results for:</p>
-      <form id="myForm">
-        <label for="state">State:</label><br>
-        <input type="text" name="state" id="state" required><br>
-        <label for="county">County:</label><br>
-        <input type="text" name="county" id="county" required><br><br>
-        <input type="submit" value="Submit">
-      </form>
+    <div class="content">
+      <h1>Is Covid near me?</h1>
+      <form id="myForm" autocomplete="off">
+    <div class="user-box">
+      <input type="text" name="state" id="state" required="">
+      <label>State</label>
+    </div>
+    <div class="user-box">
+      <input type="text" name="county" id="county" required="">
+      <label>County</label>
+    </div>
+    <a href="#" onclick="getData();">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Submit 
+    </a>
+  </form><br>
       <h2 id=results style="font-weight: normal"></h2>
     </div>
   </body>
