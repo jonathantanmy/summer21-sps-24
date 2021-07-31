@@ -15,6 +15,8 @@ While currently text based, this project has a few long term goals that could im
 
 And more! Feel free to contact anyone on our team if you have any questions or would like to learn more.
 
+Live Link: https://summer21-sps-24.appspot.com/ 
+
 ## The Team:
 #### [Jonathan Rivera](http://jrivera-sps-summer21.appspot.com/ "Jonathan's Portfolio")
 #### [Julio Valerio](http://jvalerio-sps-summer21.appspot.com/ "Julio's Portfolio")
